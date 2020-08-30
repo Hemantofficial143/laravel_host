@@ -1,0 +1,40 @@
+stages:
+  - frontend
+  - test
+
+frontend checks:
+  stage: frontend
+  only:
+    changes:
+      - package.json
+      - yarn.lock
+      - webpack.mix.js
+      - resources/views/*
+  tags:
+    - static
+  allow_failure: true
+  script:
+    - html5validator --root resources/views/ --match "*.blade.php" --blacklist node_modules vendors src --ignore-re 'Bad value "{{\s?asset|route|url(.*?)\s?}}" for attribute "href|src" on element "link|script|img|a"' 'Bad value "{{\s?asset|route|url(.*?)\s?}}" for attribute "action" on element "form"' 'Bad value "{{\s?URL::to(.*?)\s?}}" for attribute "action" on element "form"' 'Non-space characters found without seeing a doctype first. Expected "<!DOCTYPE html>"' 'Element "head" is missing a required instance of child element "title"'
+
+dep test:
+  stage: test
+  tags:
+    - static
+  cache:
+    key: ${CI_COMMIT_REF_NAME}
+    paths:
+      - vendor
+      - node_modules
+  script:
+    - npm i
+    - bower install --allow-root
+    - cp .env.example .env
+    - composer install --prefer-dist --no-ansi --no-interaction --no-progress --no-scripts
+    - npm run dev
+  artifacts:
+    paths:
+      - ./storage/logs # for debugging
+      - ./tests/Browser/screenshots
+      - ./tests/Browser/console
+    expire_in: 1 days
+    when: always

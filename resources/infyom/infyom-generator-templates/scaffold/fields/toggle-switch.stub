@@ -1,0 +1,12 @@
+<!-- 'bootstrap / Toggle Switch $FIELD_NAME_TITLE$ Field' -->
+<div class="form-group">
+    <div class="row">
+        {!! Form::label('$FIELD_NAME$', '$FIELD_NAME_TITLE$:',['class'=>'col-md-3 col-lg-3 col-12 control-label']) !!}
+        <div class="col-md-9 col-lg-9 col-12">
+            <label class="checkbox-inline">
+                {!! Form::hidden('$FIELD_NAME$', 0) !!}
+                {!! Form::checkbox('$FIELD_NAME$', 1, null,  ['data-toggle' => 'toggle']) !!}
+            </label>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,147 @@
+<?php
+use Illuminate\Support\Facades\Route;
+
+include('web_builder.php');
+
+/*
+|--------------------------------------------------------------------------
+| Web Routes
+|--------------------------------------------------------------------------
+|
+| Here is where you can register web routes for your application. These
+| routes are loaded by the RouteServiceProvider within a group which
+| contains the "web" middleware group. Now create something great!
+|
+*/
+
+// pregix "admin"
+Route::prefix('/admin')->group(function(){
+    
+
+
+    //redirect admin to Login Page
+    Route::get('/','AdminController@showLoginForm')->name('admin.login');
+
+    // Login submit route
+    Route::post('/loginSubmit','AdminController@attemptLogin')->name('admin.login.submit');
+
+    // logout submit route
+    Route::get('/logout','AdminController@logout')->name('admin.login.logout');
+
+    //redirect admin to Register Page
+    Route::get('/register','AdminController@showRegisterForm')->name('admin.register');
+
+    // Registration submit Route ( when admin register on site )
+    Route::post('/registerSubmit','AdminController@createAdmin')->name('admin.register.submit');
+
+    // forgot password view page router
+    Route::get('/forgot_password','AdminController@showForgotForm')->name('admin.forgot');
+    
+    // Route with group if admin authenticated
+    Route::group(['middleware' => 'auth:admin'], function () {
+
+        //Route to redirect to dashboard
+        Route::get('/dashboard','AdminController@showDashboard')->name('admin.view.dashboard');
+
+
+        //=========================================================================================================
+                                        //Users Related Routes start
+        //=========================================================================================================
+
+        //Route to redirect to all user view
+        Route::get('/users','AdminController@showAllUser')->name('admin.view.users.show');
+
+        // getall users detail route and show in datatable
+        Route::get('/getUsers','AdminController@getAllUser')->name('admin.user.get');
+
+        // Route to display view page of user
+        Route::get('/users/view/{int:id}','AdminController@showUserDetail')->name('admin.view.user.view');
+
+        // Route to display view Edit page of user
+        Route::get('/users/edit/{int:id}','AdminController@EditUserDetail')->name('admin.view.user.edit');
+
+        // Route to submit Edit page of user
+        Route::post('/users/edit/submit/{int:id}','AdminController@updateUserDetail')->name('admin.view.user.edit.submit');
+
+       // show add user form
+       Route::get('/users/add','AdminController@showAddUserForm')->name('admin.view.users.add');
+
+
+       // submit add user form
+       Route::post('/users/add/submit','AdminController@submitAddUserForm')->name('admin.users.add.submit');
+
+        // Route to delete user 
+        Route::get('/users/delete/{int:id}','AdminController@deleteUserSoft')->name('admin.users.softdelete');
+
+       
+
+       //show deleted user form
+       Route::get('/users/deleted_user','AdminController@showDeletedUser')->name('admin.view.deleted.users');
+
+       //============================================================================================================
+                                    //users relates routes end
+       //============================================================================================================
+
+
+
+       //=========================================================================================================
+                                        //Admin Related Routes start
+        //=========================================================================================================
+
+        //Route to redirect to all user view
+        Route::get('/admins','AdminController@showAllAdmin')->name('admin.view.admin.show');
+
+        // getall users detail route and show in datatable
+        Route::get('/getAdmins','AdminController@getAllAdmin')->name('admin.admin.get');
+
+        // Route to display view page of user
+        Route::get('/admins/view/{int:id}','AdminController@showAdminDetail')->name('admin.view.admin.view');
+
+        // Route to display view Edit page of user
+        Route::get('/admins/edit/{int:id}','AdminController@EditAdminDetail')->name('admin.view.admin.edit');
+
+        // Route to submit Edit page of user
+        Route::post('/admins/edit/{int:id}','AdminController@EditAdminDetail')->name('admin.view.admin.edit');
+
+       // show add user form
+       Route::get('/admins/add','AdminController@showAddAdminForm')->name('admin.view.admin.add');
+
+        // Route to delete user 
+        Route::get('/admins/delete/{int:id}','AdminController@deleteAdminSoft')->name('admin.admin.softdelete');
+
+       // submit add user form
+       Route::post('/admins/add/submit','AdminController@submitAddAdminForm')->name('admin.admin.add.submit');
+
+
+       //============================================================================================================
+                                    //Admin relates routes end
+       //============================================================================================================
+
+       //============================================================================================================
+                                    //Product relates routes start
+       //============================================================================================================
+      //Route to redirect to all product view
+      Route::get('/products','AdminController@showAllProduct')->name('admin.view.product.show');
+
+      // Route to Add new Product
+       Route::get('/product/add','ProductController@showAddProductForm')->name('admin.product.add');
+       Route::post('/product/add/fetch','ProductController@submitFetchAddProduct')->name('admin.product.add.fetch');
+        Route::post('/product/add/submit','ProductController@store')->name('admin.product.add.submit');
+
+        //Route to Fetch all prduct
+        Route::get('/getProduct','AdminController@getAllProduct')->name('admin.product.show');
+
+        //Route to Redirect to import data View
+        Route::get('/products/import','AdminController@showImportProductForm')->name('admin.product.import');
+        Route::post('/products/import/submit','ProductController@importData')->name('admin.products.import.submit');
+
+       //============================================================================================================
+                                    //Product relates routes End
+       //============================================================================================================
+        
+    });
+});
+
+
+
+Route::get('{name}', 'AdmireController@showView');

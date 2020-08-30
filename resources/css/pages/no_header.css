@@ -1,0 +1,13 @@
+#left{
+    min-height:1400px;
+}
+@media (min-width:768px) and (max-width:1023px){
+    #left{
+        min-height:2151px;
+    }
+}
+@media (min-width:1024px) and (max-width:1169px){
+    #left{
+        min-height:1501px;
+    }
+}

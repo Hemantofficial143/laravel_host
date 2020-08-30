@@ -1,0 +1,9 @@
+<!-- $FIELD_NAME_TITLE$ Field -->
+<div class="form-group">
+    <div class="row">
+        {!! Form::label('$FIELD_NAME$', __('models/$TABLE_NAME$.fields.$FIELD_NAME$').':',['class'=>'col-md-3 col-lg-3
+        col-12 control-label']) !!}
+        <div class="col-md-9 col-lg-9 col-12">{!! Form::email('$FIELD_NAME$', null, ['class' => 'form-control']) !!}
+        </div>
+    </div>
+</div

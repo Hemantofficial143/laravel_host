@@ -1,0 +1,44 @@
+//@import url(https://fonts.googleapis.com/css?family=Source+Sans+Pro|Raleway:700);
+@import url(https://fonts.googleapis.com/css?family=Source+Sans+Pro|Roboto:500);
+
+html {
+  font-size: 14px;
+}
+
+@import "variables";
+@import "node_modules/bootstrap/scss/bootstrap";
+//regular buttons
+.badge{
+  color: $badge-color;
+}
+
+//alerts
+@mixin alert-variant($background, $border, $color) {
+  color: #fff;
+  background-color: $background;
+  border-color: $border;
+}
+@each $color, $value in $theme-colors {
+  .alert-#{$color} {
+    @include alert-variant(theme-color-level($color), theme-color-level($color, 1), theme-color-level($color));
+  }
+}
+
+//buttons
+.btn-warning,.btn-danger{
+  color: $white;
+  &:hover{
+    color: $white;
+  }
+}
+
+.text-white {
+  color:$white;
+}
+
+//table
+.table-responsive {
+    display: block;
+    width: 100%;
+    overflow-x: auto;
+}

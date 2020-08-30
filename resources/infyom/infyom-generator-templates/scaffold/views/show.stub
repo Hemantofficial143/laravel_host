@@ -1,0 +1,55 @@
+@extends('layouts.default')
+
+{{-- Page title --}}
+@section('title')
+View $MODEL_NAME_HUMAN$ @parent
+@stop
+
+@section('content')
+<!-- Content Header (Page header) -->
+<header class="head">
+    <div class="main-bar">
+        <div class="row">
+            <div class="col-lg-6 col-sm-4">
+                <h4 class="nav_top_align">
+                    <i class="fa fa-th"></i>
+                    $MODEL_NAME_PLURAL_HUMAN$
+                </h4>
+            </div>
+            <div class="col-lg-6 col-sm-8">
+                <ol class="breadcrumb float-right nav_breadcrumb_top_align">
+                    <li class="breadcrumb-item">
+                        <a href="index">
+                            <i class="fa fa-home" data-pack="default" data-tags=""></i>
+                            Dashboard
+                        </a>
+                    </li>
+                    <li class="breadcrumb-item">
+                        <a href="#">$MODEL_NAME_PLURAL_HUMAN$</a>
+                    </li>
+                    <li class="breadcrumb-item active">View $MODEL_NAME_HUMAN$</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</header>
+
+<div class="outer">
+    <div class="inner bg-container">
+        <div class="clearfix"></div>
+
+        @include('flash::message')
+
+        <div class="clearfix"></div>
+        <div class="card">
+            <div class="table-responsive">
+                <table class="table table-default">
+                    @include('$VIEW_PREFIX$$MODEL_NAME_PLURAL_SNAKE$.show_fields')
+
+                </table>
+            </div>
+        </div>
+        <a href="{{ route('$ROUTE_NAMED_PREFIX$$MODEL_NAME_PLURAL_CAMEL$.index') }}" class="btn btn-primary mt-2">Back</a>
+    </div>
+</div>
+@endsection

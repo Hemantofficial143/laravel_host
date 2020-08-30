@@ -1,0 +1,204 @@
+@extends('layouts/fixed_menu_header')
+
+{{-- Page title --}}
+@section('title')
+    Add Product
+    @parent
+@stop
+{{-- page level styles --}}
+@section('header_styles')
+    <!-- plugin styles-->
+    <link type="text/css" rel="stylesheet" href="{{asset('vendors/jasny-bootstrap/css/jasny-bootstrap.min.css')}}"/>
+    <link type="text/css" rel="stylesheet" href="{{asset('vendors/bootstrapvalidator/css/bootstrapValidator.min.css')}}"/>
+    <!--end of page level css-->
+    <style>
+        .br-0{
+            border-top-right-radius: 0;
+            border-bottom-right-radius: 0;
+        }
+    </style>
+@stop
+
+{{-- Page content --}}
+@section('content')
+
+    <header class="head">
+
+        <div class="main-bar">
+            <div class="row">
+                <div class="col-lg-6">
+                    <h4 class="nav_top_align">
+                        <i class="fa fa-shopping-basket"></i>
+                        Add Product
+                    </h4>
+                </div>
+                <div class="col-lg-6">
+                    <div class="float-right">
+                        <ol class="breadcrumb nav_breadcrumb_top_align">
+                            <li class="breadcrumb-item">
+                                <a href="index">
+                                    <i class="fa fa-home" data-pack="default" data-tags=""></i>
+                                    Dashboard
+                                </a>
+                            </li>
+                            <li class="breadcrumb-item">
+                                <a href="#">Product</a>
+                            </li>
+                            <li class="breadcrumb-item active">Add Product</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="outer">
+        <div id="custom_error_msg"></div>
+        <div id="custom_success_msg"></div>
+        <div class="inner bg-container" id="asin_container">
+            <div class="card p-5">
+                <form action="" method="POST" id="asin_form">
+                    @csrf
+                    
+                    <select name="seller" class="form-control m-3" id="seller">
+                        @foreach ($seller as $s)
+                            <option value="{{ $s->seller_code }}">{{ $s->seller_name }}</option>
+                        @endforeach
+                    </select>
+                    <input type="text" name="asin_n" id="asin_n" class="form-control m-3" placeholder="ASIN">
+                    <button class="btn btn-success m-3">Fetch Product</button>
+                </form>
+            </div>
+        </div>
+
+        <div class="inner bg-container" id="product_container" style="display: none">
+            <div class="card p-5">
+                <form action="" method="POST" id="product_form" >
+                    @csrf
+                    <table class="table table-striped">
+                        <input type="hidden" name="seller_code" id="seller_code" >
+                        <input type="hidden" name="asin" id="asin" >
+                        <tr>
+                            <th>Product Image</th>
+                            <th>:</th>
+                            <th>
+                                <img src="" alt="product_image" id="display_image" class="img-thumbnail" height="200" width="200">
+                                <input type="hidden" name="image" id="image" value="">
+                            </th>
+                        </tr>
+                        <tr>
+                            <th>Title</th>
+                            <th>:</th>
+                            <th><input type="text" name="title" id="title" class="form-control" ></th>
+                        </tr>
+                        <tr>
+                            <th>Price</th>
+                            <th>:</th>
+                            <th><input type="text" name="price" id="price" class="form-control" ></th>
+                        </tr>
+                        <tr>
+                            <th>Brand</th>
+                            <th>:</th>
+                            <th><input type="text" name="brand" id="brand" class="form-control" ></th>
+                        </tr>
+                        <tr>
+                            <th>Description</th>
+                            <th>:</th>
+                            <th><textarea name="description" id="description"  class="form-control" cols="30" rows="10"></textarea></th>
+                        </tr>
+                    </table>
+                    
+                    <button class="btn btn-success m-3">Add Product</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- /.inner -->
+    </div>
+
+@stop
+
+{{-- page level scripts --}}
+@section('footer_scripts')
+    <!-- plugin scripts-->
+    <script type="text/javascript" src="{{asset('js/pluginjs/jasny-bootstrap.js')}}"></script>
+    <script type="text/javascript" src="{{asset('vendors/holderjs/js/holder.js')}}"></script>
+    <script type="text/javascript" src="{{asset('vendors/bootstrapvalidator/js/bootstrapValidator.min.js')}}"></script>
+    <!-- end of plugin scripts-->
+    <script type="text/javascript" src="{{asset('js/pages/validation.js')}}"></script>
+    <!-- end of page level js -->
+    <script>
+            $('#asin_form').on('submit',function(e){
+                $('#custom_error_msg').html("");
+                $('#custom_success_msg').html("");
+                e.preventDefault();
+                var data = $(this).serialize();
+                $.ajax({
+                    url:"{{ url('/admin/product/add/fetch') }}",
+                    data:data,
+                    method:"POST",
+                    dataType:"json",
+                    success:function(res){
+                       if(res.error){
+                           $('#custom_error_msg').html(res.error_msg);
+                       }else{
+                        $('#custom_success_msg').html(res.success_msg);
+                           $('#asin_container').hide();
+                           $('#product_container').show();
+                           
+                           document.getElementById('display_image').src = res.product_data.image;
+                           document.getElementById('seller_code').value = res.product_data.seller_code;
+                           document.getElementById('asin').value = res.product_data.asin;
+                           document.getElementById('image').value = res.product_data.image;
+                           document.getElementById('title').value = res.product_data.title;
+                           document.getElementById('price').value = res.product_data.price;
+                           document.getElementById('brand').value = res.product_data.brand;
+                           document.getElementById('description').value = res.product_data.title;
+                       }
+                    }
+                })  
+            });
+
+            
+            function isEmpty(id){
+                if(document.getElementById(''+id+'').value == ""){
+                    $('#'+id+'').css('border','2px solid red');
+                    return false;
+                }   
+                return true;
+            }
+
+
+            $('#product_form').on('submit',function(e){
+                e.preventDefault();
+                $('#custom_error_msg').html("");
+                $('#custom_success_msg').html("");
+                var data = $(this).serialize();
+                var title  = isEmpty('title');
+                var price = isEmpty('price');
+                var brand = isEmpty('brand');
+                var description = isEmpty('description');
+                if(title == true && price == true && brand == true && description == true){
+                    $.ajax({
+                        url:"{{ route('admin.product.add.submit') }}",
+                        data:data,
+                        method:"POST",
+                        dataType:"json",
+                        success:function(res){
+                            if(res.error){
+                                $('#custom_error_msg').html(res.error_msg);            
+                            }else{
+                                $('#product_container').hide();
+                                $('#asin_container').show(); 
+                                $('#custom_success_msg').html(res.success_msg);            
+                            }
+                        }
+                    });
+
+                }else{
+                    $('#custom_error_msg').html("<div class='alert alert-danger'>Something went Wrong !!</div>");
+                }
+            });
+        
+    </script>
+@stop

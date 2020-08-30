@@ -1,0 +1,55 @@
+@extends('layouts.default')
+
+{{-- Page title --}}
+@section('title')
+{{ __('Edit') }} $MODEL_NAME_HUMAN$ @parent
+@stop
+
+@section('content')
+<header class="head">
+    <div class="main-bar">
+        <div class="row">
+            <div class="col-lg-6 col-sm-4">
+                <h4 class="nav_top_align">
+                    <i class="fa fa-th"></i>
+                    $MODEL_NAME_PLURAL_HUMAN$
+                </h4>
+            </div>
+            <div class="col-lg-6 col-sm-8">
+                <ol class="breadcrumb float-right nav_breadcrumb_top_align">
+                    <li class="breadcrumb-item">
+                        <a href="index">
+                            <i class="fa fa-home" data-pack="default" data-tags=""></i>
+                            Dashboard
+                        </a>
+                    </li>
+                    <li class="breadcrumb-item">
+                        <a href="#">$MODEL_NAME_PLURAL_HUMAN$</a>
+                    </li>
+                    <li class="breadcrumb-item active">{{ __('Edit') }} $MODEL_NAME_HUMAN$</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</header>
+
+<div class="outer">
+    <div class="inner bg-container">
+        @include('adminlte-templates::common.errors')
+        <div class="card">
+            <div class="card-header bg-primary text-white">
+                <h5 class="text-white">{{ __('Edit') }} $MODEL_NAME_HUMAN$</h5>
+            </div>
+            <div class="card-body mt-3">
+                {!! Form::model($$MODEL_NAME_CAMEL$, ['route' =>
+                ['$ROUTE_NAMED_PREFIX$$MODEL_NAME_PLURAL_CAMEL$.update',
+                $$MODEL_NAME_CAMEL$->$PRIMARY_KEY_NAME$], 'method' => 'patch'$FILES$,'class' => 'form-horizontal']) !!}
+
+                @include('$VIEW_PREFIX$$MODEL_NAME_PLURAL_SNAKE$.fields')
+
+                {!! Form::close() !!}
+            </div>
+        </div>
+    </div>
+</div>
+@endsection

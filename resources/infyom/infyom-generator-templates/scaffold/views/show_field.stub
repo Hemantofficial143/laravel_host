@@ -1,0 +1,4 @@
+<tr>
+    <th scopre="row">{!! Form::label('$FIELD_NAME$', '$FIELD_NAME_TITLE$:') !!}</th>
+    <td>{{ $$MODEL_NAME_CAMEL$->$FIELD_NAME$ }}</td>
+</tr>

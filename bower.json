@@ -1,0 +1,40 @@
+{
+    "name": "admire",
+    "description": "",
+    "main": "",
+    "license": "",
+    "keywords": [],
+    "homepage": "https://admireadmin.com",
+    "moduleType": [
+        "node"
+    ],
+    "private": true,
+    "ignore": [
+        "**/.*",
+        "node_modules",
+        "bower_components",
+        "test",
+        "tests"
+    ],
+    "dependencies": {
+        "bootstrap3-wysihtml5-bower": "~0.3.3",
+        "bootstrap_calendar": "~1.0.1",
+        "jquery-inputlimiter": "https://github.com/mythril/jquery-inputlimiter.git",
+        "ModalWindowEffects": "*",
+        "jQuery-Validation-Engine": "~0.1.0",
+        "bootstrapValidator": "0.5.2",
+        "fancybox": "~2.1.5",
+        "hover": "~2.0.2",
+        "jquery.newsTicker": "https://github.com/risq/jquery-advanced-news-ticker.git",
+        "circliful": "~1.0.2",
+        "ihover": "~1.0.0",
+        "themify-icons": "~0.1.2",
+        "ionicons": "~1.5.2",
+        "unitegallery": "~1.7.28",
+        "tooltip.js": "https://unpkg.com/tooltip.js"
+    },
+    "resolutions": {
+        "jquery": "~3.2.1",
+        "bootstrap": "^4.2.1"
+    }
+}
