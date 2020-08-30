@@ -339,7 +339,7 @@
                 var prod_brand = $('#prod_brand').val();
                 var prod_img = $('#prod_img').val();
                 var prod_category = $('#prod_category').val();
-                alert(prod_category);
+                
                 var asin = $('#asin').val();
                 var data = "prod_name="+prod_name+"&prod_price="+prod_price+"&prod_desc="+prod_desc+"&prod_brand="+prod_brand+"&prod_img="+prod_img+"&asin="+asin+"&prod_category="+prod_category;
                 $.ajax({
@@ -350,14 +350,10 @@
                     method:"POST",
                     data:data,
                     success:function(res){
-                        console.log(res.success_msg);
                         if(res.error){
-                            
-                           // window.location.href = "/admin/product/add?ack=e";
+                           window.location.href = "/admin/product/add?ack=e";
                         }else{
-                           //window.location.href = "/admin/product/add?ack=s";
-                        
-                            
+                           window.location.href = "/admin/product/add?ack=s";    
                         }
                     }
                 })

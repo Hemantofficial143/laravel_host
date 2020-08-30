@@ -78,7 +78,7 @@ class ProductController extends Controller
         }else{
             $response['error'] = 1;
         }
-        echo "<script>alert('1')</script>";
+        
         return $response;
     }
 
