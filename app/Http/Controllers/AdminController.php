@@ -365,6 +365,27 @@ class AdminController extends Controller
             ->make(true);
         }
     }
+
+
+    // return view of all user
+    public function showProductDetail($id){
+        $productData = Product::find($id);
+        return view('admin.view_product',['product' => $productData]);
+    }
+
+    // return view of edit user page
+    public function EditProductDetail($id){
+        $productData = Product::find($id);
+        return view('admin.edit_product',['product' => $productData]);
+    }   
+
+    // function to delete user
+    public function deleteProductSoft($id){
+        $product = Product::find($id);
+        $product->delete();
+        return redirect()->back()->with('delete_msg','Product Deleted Succesfully');
+    }
+
     public function showImportProductForm(){
         return view('admin.import_data');
     }

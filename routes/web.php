@@ -131,6 +131,17 @@ Route::prefix('/admin')->group(function(){
         //Route to Fetch all prduct
         Route::get('/getProduct','AdminController@getAllProduct')->name('admin.product.show');
 
+
+        // CRUD of PRODUCTS
+        // Route to display view page of user
+        Route::get('/product/view/{int:id}','AdminController@showProductDetail')->name('admin.view.product.view');
+
+        // Route to display view Edit page of user
+        Route::get('/product/edit/{int:id}','AdminController@EditProductDetail')->name('admin.view.product.edit');
+
+        // Route to submit Edit page of user
+       // Route::post('/product/edit/{int:id}','AdminController@EditProductDetail')->name('admin.view.admin.edit');
+
         //Route to Redirect to import data View
         Route::get('/products/import','AdminController@showImportProductForm')->name('admin.product.import');
         Route::post('/products/import/submit','ProductController@importData')->name('admin.products.import.submit');
@@ -141,7 +152,26 @@ Route::prefix('/admin')->group(function(){
         
     });
 });
+Route::get('','WebController@index');
 
+Route::get('/dp/{name}','WebController@single');
+Route::get('/shop','WebController@shop');
+Route::get('/about','WebController@about');
+Route::get('/contact','WebController@contact');
 
+Route::post('/search','WebController@search');
+
+// login register route start
+Route::get('/login','WebController@login');
+Route::post('/login','WebController@loginSubmit');
+Route::get('/register','WebController@register');
+Route::post('/register','WebController@registerSubmit');
+// login register route end
+
+Route::group(['middleware' => 'auth'], function () {
+    Route::get('/dashboard','WebController@dashboard');
+    Route::get('/logout','WebController@logout');
+});
+Route::post('/wishlist/{action}','WebController@wishlistAction');
 
 Route::get('{name}', 'AdmireController@showView');
