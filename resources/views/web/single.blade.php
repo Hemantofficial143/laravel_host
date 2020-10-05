@@ -21,6 +21,7 @@
                         <div class="col-xl-12">
                             <div class="text-center">
                                     {{ $data->title }}
+                                    {{ $wish }}
                             </div>
                         </div>
                     </div>
@@ -34,9 +35,10 @@
             @csrf
             <div class="container">
                 <div id="error_msg"></div>
+                
                 {{-- <input type="hidden" name="wish_status" id="wish_status" value="{{ wish }}"> --}}
-                <span id="wish"><i class="fas fa-heart fa-2x " id="heart" style="cursor:pointer"></i></span>
-            <div class="row justify-content-center">
+                <span id="wish"><i class="fas fa-heart fa-2x " id="heart" style="cursor:pointer"> </i> <div id="success_msg"></div>  </span>
+                <div class="row justify-content-center">
 
                 <div class="col-lg-12">
                 
@@ -114,19 +116,48 @@
     @include('web/search_model')
     @include('web/js')
     <script>
+        var wish = {{ $wish }};
+        
+        if(wish > 0){
+            $('#heart').css('color','red');
+        }else{
+            $('#heart').css('color','black');
+        }
         $('#heart').on('click', function(){
-            $.ajax({
-                url: '/wishlist/add',
-                method: 'POST',
-                data: 'product_id={{ $data->id }}&user_id={{ Auth::user()->id }}&_token={{ csrf_token() }}',
-                success:function(res){
-                    if(res.error){
-
-                    }else{
-                        $('#heart').css('color','red');
+            if( wish > 0){
+                $.ajax({
+                    url: '/wishlist/remove',
+                    method: 'POST',
+                    dataType: "json",
+                    data: 'product_id={{ $data->id }}&user_id={{ Auth::user()->id }}&_token={{ csrf_token() }}',
+                    success:function(res){
+                        if(res.error){
+                            $('#error_msg').html("<div class='alert alert-danger'>"+res.error_msg+"</div>")
+                        }else{
+                            wish = 0;
+                            $('#heart').css('color','black');
+                            $('#success_msg').html("<div class='alert alert-success'>"+res.success_msg+"</div>")
+                        }
                     }
-                }
-            })
+                })
+            }else{
+                $.ajax({
+                    url: '/wishlist/add',
+                    method: 'POST',
+                    dataType: "json",
+                    data: 'product_id={{ $data->id }}&user_id={{ Auth::user()->id }}&_token={{ csrf_token() }}',
+                    success:function(res){
+                        if(res.error){
+                            $('#error_msg').html("<div class='alert alert-danger'>"+res.error_msg+"</div>")
+                        }else{
+                            wish = 1;
+                            $('#heart').css('color','red');
+                            $('#success_msg').html("<div class='alert alert-success'>"+res.success_msg+"</div>")
+                        }
+                    }
+                })
+            }
+            
         })
     </script>
 @endsection

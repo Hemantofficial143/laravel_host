@@ -33,12 +33,16 @@ class WebController extends Controller
 
     public function single($name){
         $product = Product::where('asin',"=",$name)->get();
+        $wish = "";
         if(Auth::check()){
-            $wish = DB::table('wishlists')->where('product_id', $product->id);
-
+            $wish = DB::table('wishlists')
+                    ->where('product_id','=',$product[0]->id)
+                    ->where('user_id','=',Auth::user()->id)
+                    ->count();
         }
-        return view('web.single',['data' => $product[0]]);
+        return view('web.single',['data' => $product[0] , 'wish' => $wish]);
     }
+    
 
     
 
@@ -119,7 +123,18 @@ class WebController extends Controller
                 $result['error_msg'] = "Please Login to Add wishlist";
             }
         }else if ($action == 'remove'){
-            
+            if(Auth::check()){
+                $wish = DB::table('wishlists')
+                            ->where('product_id','=',$request->product_id)
+                            ->where('user_id','=',$request->user_id);
+                if($wish->delete()){
+                    $result['error'] = False;
+                    $result['success_msg'] = "Product Removed from Wishlist";    
+                }
+            }else{
+                $result['error'] = True;
+                $result['error_msg'] = "Please Login to Add wishlist";
+            }
         }
         echo json_encode($result);
     }
