@@ -10,9 +10,9 @@
 @section('body_part')
     @include('web/preloader')
     @include('web/header')
-    
+
     <main>
-      
+
         <!-- Hero Area Start-->
         <div class="slider-area ">
             <div class="single-slider slider-height2 d-flex align-items-center">
@@ -35,19 +35,30 @@
             @csrf
             <div class="container">
                 <div id="error_msg"></div>
-                
-                {{-- <input type="hidden" name="wish_status" id="wish_status" value="{{ wish }}"> --}}
-                <span id="wish"><i class="fas fa-heart fa-2x " id="heart" style="cursor:pointer"> </i> <div id="success_msg"></div>  </span>
-                <div class="row justify-content-center">
 
+                @if(isset( Auth::user()->id ))
+                    <input type="hidden" id="user_id" name="user_id" value="{{ Auth::user()->id }}">
+                @else
+                    <input type="hidden" id="user_id" name="user_id" value="0">
+                @endif
+
+
+                @if( isset(Auth::user()->id) )
+                    <span id="wish"><i class="fas fa-heart fa-2x " id="heart" style="cursor:pointer"> </i> <div id="success_msg"></div>  </span>
+                @else
+                    <span id="wish"><a href="/login" style="color:black"><i class="fas fa-heart fa-2x " id="heart" style="cursor:pointer"> </i></a></span>
+                @endif
+                {{-- <input type="hidden" name="wish_status" id="wish_status" value="{{ wish }}"> --}}
+
+                <div class="row justify-content-center">
                 <div class="col-lg-12">
-                
+
                 <center><img src="{{ $data->image }}" alt="#" class="img-fluid" height="300px" width="350px"></center>
                 </div>
                 <center><h3 class="p-3">{{ $data->title }}<br></h3></center>
                 <div class="col-lg-8">
                 <div >
-                    
+
                     <table class="" width="100%" cellpadding="20">
                         <tr>
                             <th>ASIN</th>
@@ -83,7 +94,12 @@
                         </tr>
                         <tr >
                             <td colspan="8" >
-                                <center><a href="#" class="btn_3 " style="margin-top:30px;">BUY NOW</a></center>
+                                @if (isset( Auth::user()->id))
+                                    <center><a href="/buy/{{ $data->asin }}/{{ Auth::user()->id }}/{{ $data->id }}" class="btn_3 " style="margin-top:30px;">BUY NOW</a></center>
+                                @else
+                                    <center><a href="/login" class="btn_3 " style="margin-top:30px;">BUY NOW</a></center>
+                                @endif
+
                             </td>
                         </tr>
                     </table>
@@ -91,7 +107,7 @@
                 </div>
             </div>
             </div>
-        </div> 
+        </div>
         <!--================End Single Product Area =================-->
         <!-- subscribe part here -->
         {{-- <section class="subscribe_part section_padding">
@@ -117,7 +133,8 @@
     @include('web/js')
     <script>
         var wish = {{ $wish }};
-        
+        var user_id = $('#user_id').val();
+
         if(wish > 0){
             $('#heart').css('color','red');
         }else{
@@ -129,7 +146,7 @@
                     url: '/wishlist/remove',
                     method: 'POST',
                     dataType: "json",
-                    data: 'product_id={{ $data->id }}&user_id={{ Auth::user()->id }}&_token={{ csrf_token() }}',
+                    data: 'product_id={{ $data->id }}&user_id='+user_id+'&_token={{ csrf_token() }}',
                     success:function(res){
                         if(res.error){
                             $('#error_msg').html("<div class='alert alert-danger'>"+res.error_msg+"</div>")
@@ -145,7 +162,7 @@
                     url: '/wishlist/add',
                     method: 'POST',
                     dataType: "json",
-                    data: 'product_id={{ $data->id }}&user_id={{ Auth::user()->id }}&_token={{ csrf_token() }}',
+                    data: 'product_id={{ $data->id }}&user_id='+user_id+'&_token={{ csrf_token() }}',
                     success:function(res){
                         if(res.error){
                             $('#error_msg').html("<div class='alert alert-danger'>"+res.error_msg+"</div>")
@@ -157,7 +174,7 @@
                     }
                 })
             }
-            
+
         })
     </script>
 @endsection

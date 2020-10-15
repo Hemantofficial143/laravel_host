@@ -16,7 +16,7 @@ include('web_builder.php');
 
 // pregix "admin"
 Route::prefix('/admin')->group(function(){
-    
+
 
 
     //redirect admin to Login Page
@@ -36,7 +36,7 @@ Route::prefix('/admin')->group(function(){
 
     // forgot password view page router
     Route::get('/forgot_password','AdminController@showForgotForm')->name('admin.forgot');
-    
+
     // Route with group if admin authenticated
     Route::group(['middleware' => 'auth:admin'], function () {
 
@@ -70,10 +70,10 @@ Route::prefix('/admin')->group(function(){
        // submit add user form
        Route::post('/users/add/submit','AdminController@submitAddUserForm')->name('admin.users.add.submit');
 
-        // Route to delete user 
+        // Route to delete user
         Route::get('/users/delete/{int:id}','AdminController@deleteUserSoft')->name('admin.users.softdelete');
 
-       
+
 
        //show deleted user form
        Route::get('/users/deleted_user','AdminController@showDeletedUser')->name('admin.view.deleted.users');
@@ -106,7 +106,7 @@ Route::prefix('/admin')->group(function(){
        // show add user form
        Route::get('/admins/add','AdminController@showAddAdminForm')->name('admin.view.admin.add');
 
-        // Route to delete user 
+        // Route to delete user
         Route::get('/admins/delete/{int:id}','AdminController@deleteAdminSoft')->name('admin.admin.softdelete');
 
        // submit add user form
@@ -149,7 +149,7 @@ Route::prefix('/admin')->group(function(){
        //============================================================================================================
                                     //Product relates routes End
        //============================================================================================================
-        
+
     });
 });
 Route::get('','WebController@index');
@@ -158,19 +158,33 @@ Route::get('/dp/{name}','WebController@single');
 Route::get('/shop','WebController@shop');
 Route::get('/about','WebController@about');
 Route::get('/contact','WebController@contact');
+Route::get('/verify/{token}','WebController@verify');
 
 Route::post('/search','WebController@search');
 
 // login register route start
+Route::get('/store','WebController@store');
 Route::get('/login','WebController@login');
 Route::post('/login','WebController@loginSubmit');
 Route::get('/register','WebController@register');
 Route::post('/register','WebController@registerSubmit');
+Route::get('/forgot_password','WebController@forgot_password');
+Route::post('/forgot_password','WebController@forgot_passwordSubmit');
+Route::get('/reset/{token}','WebController@resetPassword');
+Route::post('/reset','WebController@resetPasswordSubmit');
+
 // login register route end
+Route::get('/send/email', 'WebController@sendVerificatioMail');
 
 Route::group(['middleware' => 'auth'], function () {
     Route::get('/dashboard','WebController@dashboard');
+    Route::get('/profile','WebController@profile');
+    Route::post('/profile','WebController@profileSubmit');
+    Route::get('/wishlist','WebController@wishlist');
+    Route::get('/recent','WebController@recent');
+    Route::get('/buy/{asin}/{user_id}/{product_id}','WebController@buy');
     Route::get('/logout','WebController@logout');
+
 });
 Route::post('/wishlist/{action}','WebController@wishlistAction');
 

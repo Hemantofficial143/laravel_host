@@ -24,7 +24,7 @@
                                     <h1 data-animation="fadeInLeft" data-delay=".4s" data-duration="2000ms">Select Your New Perfect Style</h1>
                                     <p data-animation="fadeInLeft" data-delay=".7s" data-duration="2000ms">Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat is aute irure.</p>
                                     <!-- Hero-btn -->
-                                    <div class="hero__btn" data-animation="fadeInLeft" data-delay=".8s" data-duration="2000ms">
+                                    <div class="hero_z_btn" data-animation="fadeInLeft" data-delay=".8s" data-duration="2000ms">
                                         <a href="industries.html" class="btn hero-btn">Shop Now</a>
                                     </div>
                                 </div>
@@ -151,7 +151,7 @@
                                     </div>
                                 </div>
                                 <div class="popular-caption">
-                                    <h3><a href="product_details.html">{{ $item->title }}</a></h3>
+                                    <h3><a href="/dp/{{ $item->asin }}">{{ $item->title }}</a></h3>
                                     <span>{{ $item->price }}</span>
                                 </div>
                             </div>

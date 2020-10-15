@@ -36,11 +36,11 @@ return [
     'mailers' => [
         'smtp' => [
             'transport' => 'smtp',
-            'host' => env('MAIL_HOST', 'smtp.mailgun.org'),
-            'port' => env('MAIL_PORT', 587),
-            'encryption' => env('MAIL_ENCRYPTION', 'tls'),
-            'username' => env('MAIL_USERNAME'),
-            'password' => env('MAIL_PASSWORD'),
+            'host' => env('smtp.gmail.com','smtp.gmail.com'),
+            'port' => env("465","465"),
+            'encryption' => env('ssl','ssl'),
+            'username' => env('a2mallowner@gmail.com','a2mallowner@gmail.com'),
+            'password' => env('a2maller'),
         ],
 
         'ses' => [
@@ -74,8 +74,8 @@ return [
     */
 
     'from' => [
-        'address' => env('MAIL_FROM_ADDRESS', 'hello@example.com'),
-        'name' => env('MAIL_FROM_NAME', 'Example'),
+        'address' => env('a2mallowner@gmail.com', 'hello@example.com'),
+        'name' => env('A2MALL', 'Example'),
     ],
 
     /*

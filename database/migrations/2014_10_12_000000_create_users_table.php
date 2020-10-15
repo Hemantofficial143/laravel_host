@@ -22,6 +22,7 @@ class CreateUsersTable extends Migration
             $table->string('mobile')->nullable();
             $table->string('gender')->nullable();
             $table->string('profile_img')->nullable();
+            $table->string('ver_token');
             $table->smallInteger('status')->default(0);
             $table->rememberToken();
             $table->timestamps();

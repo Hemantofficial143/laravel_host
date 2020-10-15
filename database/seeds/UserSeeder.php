@@ -13,11 +13,12 @@ class UserSeeder extends Seeder
      */
     public function run()
     {
-        for ($i=0; $i <50 ; $i++) { 
+        for ($i=0; $i <5 ; $i++) { 
             User::create([
                 'name' => Str::random(10),
                 'email' => Str::random(10)."@gmail.com",
                 'password' => Hash::make("user"),
+                'ver_token' => 'dsdsdsdsd',
                 'gender' => "M",
                 'status' => "1",
             ]);    

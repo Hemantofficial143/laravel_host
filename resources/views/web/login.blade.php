@@ -80,7 +80,7 @@
                                         <button type="submit" value="submit" class="btn_3">
                                             log in
                                         </button>
-                                        <a class="lost_pass" href="#">forget password?</a>
+                                        <a href="/forgot_password/" href="#" style="color:black">forgot password?</a>
                                     </div>
                                 </form>
                             </div>

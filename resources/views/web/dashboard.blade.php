@@ -10,7 +10,7 @@
 @section('body_part')
     @include('web/preloader')
     @include('web/header')
-    
+
     <main>
         <div class="slider-area ">
             <div class="single-slider slider-height2 d-flex align-items-center">
@@ -62,11 +62,28 @@
                             </div>
                         </div>
                     </a>
+                    <a href="/recent/" class="col-md-4">
+                        <div class="card p-3">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <i class="fas fa-history fa-5x p-3" style="color: #636e72"></i>
+                                </div>
+                                <div class="col-md-7 ">
+                                    <div class="row p-1">
+                                        <b>Recent Viewd Items</b>
+                                    </div>
+                                    <div class="row p-1">
+                                        <p></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
                 </div>
             </div>
         </section>
     </main>
-    
+
     @include('web/footer')
     @include('web/search_model')
     @include('web/js')
